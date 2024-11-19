@@ -1,0 +1,30 @@
+{
+  "name": "omie-db-integration",
+  "version": "1.0.0",
+  "description": "Integration API for an Omie mirror database",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhault/omie-db-integration.git"
+  },
+  "keywords": [
+    "API",
+    "Omie",
+    "ERP",
+    "Postgres"
+  ],
+  "author": "Raul",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rhault/omie-db-integration/issues"
+  },
+  "homepage": "https://github.com/rhault/omie-db-integration#readme",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "pg": "^8.13.1"
+  }
+}
