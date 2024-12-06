@@ -15,14 +15,13 @@ const main = async () => {
 
     const pedidos = await orders();
     //const produtos = await products();
+    //await insertProdutos(client, produtos, dalt);
 
     for (const pedido of pedidos) {
       await insertPedido(client, pedido); // Pedidos
       await insertItemsPedido(client, pedido, dalt); //Itens Pedidos
       await insertParcelas(client, pedido, dalt); //Parcelas
     }
-
-    //await insertProdutos(client, produtos, dalt);
   } catch (error) {
     console.error("Erro no processo:", error);
   } finally {

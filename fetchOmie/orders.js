@@ -8,12 +8,13 @@ export const orders = async () => {
       pagina: 1,
       registros_por_pagina: 500,
       apenas_importado_api: "N",
-      filtrar_por_data_de: "19/11/2024",
+      filtrar_por_data_de: "6/12/2024",
+      //data_cancelamento_de: "24/11/2024",
       //filtrar_por_data_ate: "19/11/2024",
-      /* filtrar_por_hora_de: "14:00:00", */
+      filtrar_por_hora_de: "13:00:00",
       //filtrar_apenas_alteracao: "N",
-      /* numero_pedido_de: 8481,
-      numero_pedido_ate: 8481, */
+      //numero_pedido_de: 8172,
+      //numero_pedido_ate: 8671,
     },
   ];
 

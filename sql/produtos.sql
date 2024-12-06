@@ -1,8 +1,7 @@
 CREATE  TABLE produtos (
-  id SERIAL PRIMARY KEY,
   codigo VARCHAR(60),
   codigo_familia NUMERIC,
-  codigo_produto NUMERIC,
+  codigo_produto NUMERIC PRIMARY KEY,
   descricao VARCHAR(120),
   estoque_minimo NUMERIC,
   inativo VARCHAR(1),

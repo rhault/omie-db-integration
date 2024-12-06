@@ -9,7 +9,7 @@ export const products = async () => {
       registros_por_pagina: 300,
       apenas_importado_api: "N",
       filtrar_apenas_omiepdv: "N",
-      filtrar_por_data_de: "19/11/2024",
+      //filtrar_por_data_de: "25/11/2024",
     },
   ];
 

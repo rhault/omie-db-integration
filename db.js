@@ -7,9 +7,9 @@ dotenv.config();
 const client = new Client({
   host: process.env.DATABASE_HOST,
   port: 5432,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE_NAME,
+  user: "postgres",
+  password: "",
+  database: "postgres",
   connectionTimeoutMillis: 5000,
 });
 
