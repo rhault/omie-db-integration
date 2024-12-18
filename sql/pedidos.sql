@@ -1,4 +1,4 @@
-CREATE TABLE pedido (
+CREATE TABLE pedidos (
     numero_pedido VARCHAR(15) PRIMARY KEY,
     bloqueado CHAR(1),
     codigo_cenario_impostos VARCHAR(50),

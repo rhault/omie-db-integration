@@ -1,6 +1,6 @@
 CREATE TABLE item_pedido (
     codigo_item BIGINT PRIMARY KEY,
-    numero_pedido VARCHAR(15) REFERENCES pedido(numero_pedido) ON DELETE CASCADE,
+    numero_pedido VARCHAR(15) REFERENCES pedidos(numero_pedido) ON DELETE CASCADE,
     codigo_produto BIGINT,
     cfop VARCHAR(20),
     ncm VARCHAR(50),
