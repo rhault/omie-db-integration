@@ -1,4 +1,4 @@
-CREATE TABLE parcela (
+CREATE TABLE parcelas (
     id VARCHAR(20) PRIMARY KEY,
     numero_pedido VARCHAR(15) REFERENCES pedido(numero_pedido) ON DELETE CASCADE,
     data_vencimento VARCHAR(10),

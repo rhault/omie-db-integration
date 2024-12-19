@@ -1,22 +1,4 @@
-import sql from "mssql";
-import dotenv from "dotenv";
-
-dotenv.config();
-
-// Configuração do banco de dados SQL Azure
-const config = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
-  database: process.env.DB_DATABASE,
-  port: parseInt(process.env.DB_PORT, 10),
-  options: {
-    encrypt: true,
-    enableArithAbort: true,
-  },
-};
-
-export const insertPedido = async (pedido) => {
+export const insertPedido = async (pool, pedido) => {
   const {
     cabecalho,
     infoCadastro,
@@ -128,10 +110,9 @@ export const insertPedido = async (pedido) => {
   };
 
   try {
-    const pool = await sql.connect(config);
     const request = pool.request();
 
-    // Adiciona os parâmetros
+    // Adiciona os parametros
     Object.keys(values).forEach((key) => {
       request.input(key, values[key]);
     });
@@ -139,9 +120,9 @@ export const insertPedido = async (pedido) => {
     // Executa a query
     await request.query(query);
     console.log(
-      `Pedido ${pedido.cabecalho.numero_pedido} inserido/atualizado com sucesso!`
+      `Orders  ${pedido.cabecalho.numero_pedido} inserted/updated successfully!`
     );
   } catch (err) {
-    console.error("Erro ao inserir o pedido:", err.message);
+    console.error("Error inserting order:", err.message);
   }
 };

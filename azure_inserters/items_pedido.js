@@ -6,22 +6,22 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
     const { ide, produto } = det[item];
 
     const query = `
-      MERGE INTO item_pedido AS target
+      MERGE INTO items_pedido AS target
       USING (SELECT 
-        @codigo_item AS codigo_item, 
-        @numero_pedido AS numero_pedido,
-        @codigo_produto AS codigo_produto, 
-        @cfop AS cfop, 
-        @ncm AS ncm, 
-        @percentual_desconto AS percentual_desconto, 
-        @quantidade AS quantidade, 
-        @reservado AS reservado, 
-        @valor_deducao AS valor_deducao, 
-        @valor_desconto AS valor_desconto, 
-        @valor_mercadoria AS valor_mercadoria, 
-        @valor_total AS valor_total, 
-        @valor_unitario AS valor_unitario, 
-        @dAlt AS dAlt) AS source
+              @codigo_item AS codigo_item, 
+              @numero_pedido AS numero_pedido, 
+              @codigo_produto AS codigo_produto, 
+              @cfop AS cfop, 
+              @ncm AS ncm, 
+              @percentual_desconto AS percentual_desconto, 
+              @quantidade AS quantidade, 
+              @reservado AS reservado, 
+              @valor_deducao AS valor_deducao, 
+              @valor_desconto AS valor_desconto, 
+              @valor_mercadoria AS valor_mercadoria, 
+              @valor_total AS valor_total, 
+              @valor_unitario AS valor_unitario, 
+              @dAlt AS dAlt) AS source
       ON (target.codigo_item = source.codigo_item)
       WHEN MATCHED THEN
         UPDATE SET 
@@ -89,11 +89,23 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
       dAlt: dalt,
     };
 
-    await pool.query(query, values);
-    console.log(
-      `Order ${numero_pedido} item ${
-        item + 1
-      } / ${quantidade_itens} inserted/updated successfully!`
-    );
+    try {
+      const request = pool.request();
+
+      // Adiciona os parametros
+      Object.keys(values).forEach((key) => {
+        request.input(key, values[key]);
+      });
+
+      // Executa a query
+      await request.query(query);
+      console.log(
+        `Order ${numero_pedido} item ${
+          item + 1
+        } / ${quantidade_itens} inserted/updated successfully!`
+      );
+    } catch (err) {
+      console.error("Error inserting order:", err.message);
+    }
   }
 };

@@ -6,10 +6,10 @@ dotenv.config({ override: true });
 
 const client = new Client({
   host: process.env.DATABASE_HOST,
-  port: ,
-  user: ,
+  port: 5432,
+  user: "postgres",
   password: process.env.PASSWORD,
-  database: ,
+  database: "postgres",
   connectionTimeoutMillis: 5000,
 });
 
