@@ -1,3 +1,5 @@
+import { requestSQL } from "./request_sql.js";
+
 export const insertItemsPedido = async (pool, pedido, dalt) => {
   const { numero_pedido, quantidade_itens } = pedido.cabecalho;
   const { det } = pedido;
@@ -89,23 +91,12 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
       dAlt: dalt,
     };
 
-    try {
-      const request = pool.request();
+    const log = `
+    Order ${numero_pedido} item ${
+      item + 1
+    } / ${quantidade_itens} inserted/updated successfully!
+    `;
 
-      // Adiciona os parametros
-      Object.keys(values).forEach((key) => {
-        request.input(key, values[key]);
-      });
-
-      // Executa a query
-      await request.query(query);
-      console.log(
-        `Order ${numero_pedido} item ${
-          item + 1
-        } / ${quantidade_itens} inserted/updated successfully!`
-      );
-    } catch (err) {
-      console.error("Error inserting order:", err.message);
-    }
+    await requestSQL(pool, values, query, log);
   }
 };

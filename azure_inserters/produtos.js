@@ -1,5 +1,9 @@
-export const insertProdutos = async (pool, products) => {
-  for (const product of products) {
+import { products } from "../fetchOmie/products.js";
+
+const produtos = await products();
+
+export const insertProdutos = async (pool) => {
+  for (const product of produtos) {
     const {
       codigo,
       codigo_familia,
