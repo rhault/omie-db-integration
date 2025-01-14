@@ -9,6 +9,7 @@ import { insertMeiosPagamentos } from "./azure_inserters/meios_pagamento.js";
 import { insertFamCadastro } from "./azure_inserters/fam_cadastro.js";
 import { insertVendedores } from "./azure_inserters/vendedores.js";
 import { insertProjetos } from "./azure_inserters/projeto.js";
+import { insertCPLancamento } from "./azure_inserters/mv_financeiros.js";
 
 const dalt = new Date().toLocaleDateString("pt-BR");
 let pool;
@@ -18,7 +19,9 @@ const main = async () => {
     pool = await sql.connect(config);
     console.log("Connection to SQL Azure.");
 
+    //await insertCPLancamento(pool);
     const pedidos = await orders();
+    //await insertCCLancamento(pool);
 
     //await insertProdutos(pool, produtos);
     //await insertFamCadastro(pool, dalt);

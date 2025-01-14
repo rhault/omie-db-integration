@@ -16,7 +16,7 @@ export const products = async () => {
   try {
     const data = await fetchOmie(url, call, param);
     const { produto_servico_cadastro, total_de_paginas } = data;
-    console.log("Paginas: ", total_de_paginas);
+    console.log("Paginas Produtos: ", total_de_paginas);
     return produto_servico_cadastro;
   } catch (error) {
     console.log("Erro ao solicitar os produtos");
