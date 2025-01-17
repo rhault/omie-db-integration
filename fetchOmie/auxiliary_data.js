@@ -18,6 +18,26 @@ export const meiosPagamento = async () => {
   }
 };
 
+export const categorias = async (isActive = "S") => {
+  const url = "https://app.omie.com.br/api/v1/geral/categorias/";
+  const call = "ListarCategorias";
+  const param = [
+    {
+      pagina: 1,
+      registros_por_pagina: 200,
+      filtrar_apenas_ativo: isActive,
+    },
+  ];
+
+  try {
+    const data = await fetchOmie(url, call, param);
+    return data;
+  } catch (error) {
+    console.log("Error requesting categories methods");
+    throw error;
+  }
+};
+
 export const famCadastros = async () => {
   const url = "https://app.omie.com.br/api/v1/geral/familias/";
   const call = "PesquisarFamilias";

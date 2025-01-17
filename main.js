@@ -10,6 +10,10 @@ import { insertFamCadastro } from "./azure_inserters/fam_cadastro.js";
 import { insertVendedores } from "./azure_inserters/vendedores.js";
 import { insertProjetos } from "./azure_inserters/projeto.js";
 import { insertCPLancamento } from "./azure_inserters/mv_financeiros.js";
+import {
+  insertCategorias,
+  insertCtgTotalizadora,
+} from "./azure_inserters/categoria.js";
 
 const dalt = new Date().toLocaleDateString("pt-BR");
 let pool;
@@ -20,8 +24,10 @@ const main = async () => {
     console.log("Connection to SQL Azure.");
 
     //await insertCPLancamento(pool);
-    const pedidos = await orders();
+    //const pedidos = await orders();
     //await insertCCLancamento(pool);
+    //await insertCategorias(pool, dalt);
+    await insertCtgTotalizadora(pool, dalt);
 
     //await insertProdutos(pool, produtos);
     //await insertFamCadastro(pool, dalt);
@@ -29,11 +35,11 @@ const main = async () => {
     //await insertMeiosPagamentos(pool, dalt);
     //await insertProjetos(pool);
 
-    for (const pedido of pedidos) {
+    /* for (const pedido of pedidos) {
       await insertPedido(pool, pedido); // Pedidos
       await insertItemsPedido(pool, pedido, dalt); //Itens Pedidos
       await insertParcelas(pool, pedido, dalt);
-    }
+    } */
   } catch (err) {
     console.error("Process error (main)", err.message);
     process.exit(1);

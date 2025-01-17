@@ -153,8 +153,8 @@ export const insertCPLancamento = async (pool) => {
         nValPago: resumo.nValPago,
       };
 
-      const log = `Release ${detalhes.nCodTitulo} inserted/updated successfully!`;
-      await requestSQL(pool, values, query, log);
+      //const log = `Release ${detalhes.nCodTitulo} inserted/updated successfully!`;
+      //await requestSQL(pool, values, query, log);
     }
   }
 };
