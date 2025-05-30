@@ -1,22 +1,15 @@
 import sql from "mssql";
-import { config } from "./connect.js";
-import { orders } from "./fetchOmie/orders.js";
-import { insertPedido } from "./azure_inserters/pedidos.js";
 import { insertItemsPedido } from "./azure_inserters/items_pedido.js";
 import { insertParcelas } from "./azure_inserters/parcelas.js";
-import { insertProdutos } from "./azure_inserters/produtos.js";
-import { insertMeiosPagamentos } from "./azure_inserters/meios_pagamento.js";
-import { insertFamCadastro } from "./azure_inserters/fam_cadastro.js";
-import { insertVendedores } from "./azure_inserters/vendedores.js";
-import { insertProjetos } from "./azure_inserters/projeto.js";
-import { insertCPLancamento } from "./azure_inserters/mv_financeiros.js";
-import {
-  insertCategorias,
-  insertCtgTotalizadora,
-} from "./azure_inserters/categoria.js";
+import { insertPedido } from "./azure_inserters/pedidos.js";
+import { config } from "./connect.js";
+import { orders } from "./fetchOmie/orders.js";
 
-const dalt = new Date().toLocaleDateString("pt-BR");
+
+const dalt = new Date().toISOString();
+
 let pool;
+
 
 const main = async () => {
   try {
@@ -24,10 +17,10 @@ const main = async () => {
     console.log("Connection to SQL Azure.");
 
     //await insertCPLancamento(pool);
-    //const pedidos = await orders();
+    const pedidos = await orders();
     //await insertCCLancamento(pool);
     //await insertCategorias(pool, dalt);
-    await insertCtgTotalizadora(pool, dalt);
+    //await insertCtgTotalizadora(pool, dalt);
 
     //await insertProdutos(pool, produtos);
     //await insertFamCadastro(pool, dalt);
@@ -35,11 +28,11 @@ const main = async () => {
     //await insertMeiosPagamentos(pool, dalt);
     //await insertProjetos(pool);
 
-    /* for (const pedido of pedidos) {
-      await insertPedido(pool, pedido); // Pedidos
+    for (const pedido of pedidos) {
+      await insertPedido(pool, pedido, dalt); // Pedidos
       await insertItemsPedido(pool, pedido, dalt); //Itens Pedidos
       await insertParcelas(pool, pedido, dalt);
-    } */
+    }
   } catch (err) {
     console.error("Process error (main)", err.message);
     process.exit(1);

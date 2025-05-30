@@ -1,6 +1,6 @@
 import { requestSQL } from "./request_sql.js";
 
-export const insertItemsPedido = async (pool, pedido, dalt) => {
+export const insertItemsPedido = async (pool, pedido, updated_at) => {
   const { numero_pedido, quantidade_itens } = pedido.cabecalho;
   const { det } = pedido;
 
@@ -9,24 +9,24 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
 
     const query = `
       MERGE INTO items_pedido AS target
-      USING (SELECT 
-              @codigo_item AS codigo_item, 
-              @numero_pedido AS numero_pedido, 
-              @codigo_produto AS codigo_produto, 
-              @cfop AS cfop, 
-              @ncm AS ncm, 
-              @percentual_desconto AS percentual_desconto, 
-              @quantidade AS quantidade, 
-              @reservado AS reservado, 
-              @valor_deducao AS valor_deducao, 
-              @valor_desconto AS valor_desconto, 
-              @valor_mercadoria AS valor_mercadoria, 
-              @valor_total AS valor_total, 
-              @valor_unitario AS valor_unitario, 
-              @dAlt AS dAlt) AS source
+      USING (SELECT
+              @codigo_item AS codigo_item,
+              @numero_pedido AS numero_pedido,
+              @codigo_produto AS codigo_produto,
+              @cfop AS cfop,
+              @ncm AS ncm,
+              @percentual_desconto AS percentual_desconto,
+              @quantidade AS quantidade,
+              @reservado AS reservado,
+              @valor_deducao AS valor_deducao,
+              @valor_desconto AS valor_desconto,
+              @valor_mercadoria AS valor_mercadoria,
+              @valor_total AS valor_total,
+              @valor_unitario AS valor_unitario,
+              @updated_at AS updated_at) AS source
       ON (target.codigo_item = source.codigo_item)
       WHEN MATCHED THEN
-        UPDATE SET 
+        UPDATE SET
           codigo_produto = source.codigo_produto,
           cfop = source.cfop,
           ncm = source.ncm,
@@ -38,7 +38,7 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
           valor_mercadoria = source.valor_mercadoria,
           valor_total = source.valor_total,
           valor_unitario = source.valor_unitario,
-          dAlt = source.dAlt
+          updated_at = source.updated_at
       WHEN NOT MATCHED THEN
         INSERT (
           codigo_item,
@@ -54,7 +54,7 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
           valor_mercadoria,
           valor_total,
           valor_unitario,
-          dAlt
+          updated_at
         )
         VALUES (
           source.codigo_item,
@@ -70,7 +70,7 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
           source.valor_mercadoria,
           source.valor_total,
           source.valor_unitario,
-          source.dAlt
+          source.updated_at
         );
     `;
 
@@ -88,13 +88,12 @@ export const insertItemsPedido = async (pool, pedido, dalt) => {
       valor_mercadoria: produto.valor_mercadoria,
       valor_total: produto.valor_total,
       valor_unitario: produto.valor_unitario,
-      dAlt: dalt,
+      updated_at: updated_at,
     };
 
     const log = `
-    Order ${numero_pedido} item ${
-      item + 1
-    } / ${quantidade_itens} inserted/updated successfully!
+    Order ${numero_pedido} item ${item + 1
+      } / ${quantidade_itens} inserted/updated successfully!
     `;
 
     await requestSQL(pool, values, query, log);

@@ -9,14 +9,14 @@ export const orders = async () => {
       registros_por_pagina: 500,
       apenas_importado_api: "N",
       status_pedido: "AUTORIZADO", // DEVOLVIDO, AUTORIZADO, FATURADO, CANCELADO, DENEGADO
-      filtrar_por_data_de: "17/01/2025",
-      //filtrar_por_data_ate: "16/01/2025",
+      //filtrar_por_data_de: "16/05/2025",
+      //filtrar_por_data_ate: "16/05/2025",
       //data_cancelamento_de: "24/11/2024",
       //filtrar_por_data_ate: "19/11/2024",
       //filtrar_por_hora_de: "15:00:00",
       //filtrar_apenas_alteracao: "N",
-      //numero_pedido_de: 8182,
-      //numero_pedido_ate: 8682,
+      numero_pedido_de: 9601,
+      numero_pedido_ate: 9700,
     },
   ];
 

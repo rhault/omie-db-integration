@@ -1,4 +1,4 @@
-export const insertPedido = async (pool, pedido) => {
+export const insertPedido = async (pool, pedido, updated_at) => {
   const {
     cabecalho,
     infoCadastro,
@@ -10,21 +10,21 @@ export const insertPedido = async (pool, pedido) => {
   const query = `
     MERGE INTO pedidos AS target
     USING (VALUES (
-      @numero_pedido, @bloqueado, @codigo_cenario_impostos, @codigo_cliente, @codigo_pedido, 
-      @data_previsao, @etapa, @qtde_parcelas, @quantidade_itens, @valor_frete, @autorizado, 
-      @cancelado, @dAlt, @dFat, @dInc, @denegado, @devolvido, @devolvido_parcial, @faturado, 
-      @hAlt, @hFat, @hInc, @codProj, @codVend, @codigo_categoria, @codigo_conta_corrente, 
-      @consumidor_final, @base_calculo_icms, @valor_descontos, @valor_mercadorias, @valor_total_pedido
+      @numero_pedido, @bloqueado, @codigo_cenario_impostos, @codigo_cliente, @codigo_pedido,
+      @data_previsao, @etapa, @qtde_parcelas, @quantidade_itens, @valor_frete, @autorizado,
+      @cancelado, @dAlt, @dFat, @dInc, @denegado, @devolvido, @devolvido_parcial, @faturado,
+      @hAlt, @hFat, @hInc, @codProj, @codVend, @codigo_categoria, @codigo_conta_corrente,
+      @consumidor_final, @base_calculo_icms, @valor_descontos, @valor_mercadorias, @valor_total_pedido, @updated_at
     )) AS source (
-      numero_pedido, bloqueado, codigo_cenario_impostos, codigo_cliente, codigo_pedido, 
-      data_previsao, etapa, qtde_parcelas, quantidade_itens, valor_frete, autorizado, 
-      cancelado, dAlt, dFat, dInc, denegado, devolvido, devolvido_parcial, faturado, 
-      hAlt, hFat, hInc, codProj, codVend, codigo_categoria, codigo_conta_corrente, 
-      consumidor_final, base_calculo_icms, valor_descontos, valor_mercadorias, valor_total_pedido
+      numero_pedido, bloqueado, codigo_cenario_impostos, codigo_cliente, codigo_pedido,
+      data_previsao, etapa, qtde_parcelas, quantidade_itens, valor_frete, autorizado,
+      cancelado, dAlt, dFat, dInc, denegado, devolvido, devolvido_parcial, faturado,
+      hAlt, hFat, hInc, codProj, codVend, codigo_categoria, codigo_conta_corrente,
+      consumidor_final, base_calculo_icms, valor_descontos, valor_mercadorias, valor_total_pedido, updated_at
     )
     ON target.numero_pedido = source.numero_pedido
-    WHEN MATCHED THEN 
-      UPDATE SET 
+    WHEN MATCHED THEN
+      UPDATE SET
         bloqueado = source.bloqueado,
         codigo_cenario_impostos = source.codigo_cenario_impostos,
         codigo_cliente = source.codigo_cliente,
@@ -54,24 +54,25 @@ export const insertPedido = async (pool, pedido) => {
         base_calculo_icms = source.base_calculo_icms,
         valor_descontos = source.valor_descontos,
         valor_mercadorias = source.valor_mercadorias,
-        valor_total_pedido = source.valor_total_pedido
-    WHEN NOT MATCHED THEN 
+        valor_total_pedido = source.valor_total_pedido,
+        updated_at = source.updated_at
+    WHEN NOT MATCHED THEN
       INSERT (
-        numero_pedido, bloqueado, codigo_cenario_impostos, codigo_cliente, codigo_pedido, 
-        data_previsao, etapa, qtde_parcelas, quantidade_itens, valor_frete, autorizado, 
-        cancelado, dAlt, dFat, dInc, denegado, devolvido, devolvido_parcial, faturado, 
-        hAlt, hFat, hInc, codProj, codVend, codigo_categoria, codigo_conta_corrente, 
-        consumidor_final, base_calculo_icms, valor_descontos, valor_mercadorias, valor_total_pedido
+        numero_pedido, bloqueado, codigo_cenario_impostos, codigo_cliente, codigo_pedido,
+        data_previsao, etapa, qtde_parcelas, quantidade_itens, valor_frete, autorizado,
+        cancelado, dAlt, dFat, dInc, denegado, devolvido, devolvido_parcial, faturado,
+        hAlt, hFat, hInc, codProj, codVend, codigo_categoria, codigo_conta_corrente,
+        consumidor_final, base_calculo_icms, valor_descontos, valor_mercadorias, valor_total_pedido, updated_at
       )
       VALUES (
-        source.numero_pedido, source.bloqueado, source.codigo_cenario_impostos, source.codigo_cliente, 
-        source.codigo_pedido, source.data_previsao, source.etapa, source.qtde_parcelas, 
-        source.quantidade_itens, source.valor_frete, source.autorizado, source.cancelado, 
-        source.dAlt, source.dFat, source.dInc, source.denegado, source.devolvido, 
-        source.devolvido_parcial, source.faturado, source.hAlt, source.hFat, source.hInc, 
-        source.codProj, source.codVend, source.codigo_categoria, source.codigo_conta_corrente, 
-        source.consumidor_final, source.base_calculo_icms, source.valor_descontos, 
-        source.valor_mercadorias, source.valor_total_pedido
+        source.numero_pedido, source.bloqueado, source.codigo_cenario_impostos, source.codigo_cliente,
+        source.codigo_pedido, source.data_previsao, source.etapa, source.qtde_parcelas,
+        source.quantidade_itens, source.valor_frete, source.autorizado, source.cancelado,
+        source.dAlt, source.dFat, source.dInc, source.denegado, source.devolvido,
+        source.devolvido_parcial, source.faturado, source.hAlt, source.hFat, source.hInc,
+        source.codProj, source.codVend, source.codigo_categoria, source.codigo_conta_corrente,
+        source.consumidor_final, source.base_calculo_icms, source.valor_descontos,
+        source.valor_mercadorias, source.valor_total_pedido, source.updated_at
       );
   `;
 
@@ -107,6 +108,7 @@ export const insertPedido = async (pool, pedido) => {
     valor_descontos: total_pedido.valor_descontos,
     valor_mercadorias: total_pedido.valor_mercadorias,
     valor_total_pedido: total_pedido.valor_total_pedido,
+    updated_at: updated_at
   };
 
   try {
@@ -123,6 +125,6 @@ export const insertPedido = async (pool, pedido) => {
       `Orders  ${pedido.cabecalho.numero_pedido} inserted/updated successfully!`
     );
   } catch (err) {
-    console.error("Error inserting order:", err.message);
+    console.error("Error inserting order(pedidos):", err.message);
   }
 };
